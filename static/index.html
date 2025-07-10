@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan API - Frontend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Layanan Perpustakaan</h1>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#" data-section="book-list">Daftar Buku</a></li>
+                    <li><a href="#" data-section="add-book">Tambah Buku</a></li>
+                    <li><a href="#" data-section="borrowing-management">Peminjaman Buku</a></li>
+                    <li><a href="#" data-section="member-management">Manajemen Anggota</a></li>
+                    </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <section id="book-list-section" class="content-section active">
+                <h2>Buku yang Tersedia</h2>
+                <div id="books-container" class="books-grid">
+                    <p>Memuat buku...</p>
+                </div>
+            </section>
+
+            <section id="add-book-section" class="content-section">
+                <h2>Tambah Buku Baru</h2>
+                <form id="add-book-form">
+                    <div class="form-group">
+                        <label for="judul">Judul:</label>
+                        <input type="text" id="judul" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tahun_terbit">Tahun Terbit:</label>
+                        <input type="number" id="tahun_terbit">
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" id="isbn">
+                    </div>
+                    <div class="form-group">
+                        <label for="stok">Stok:</label>
+                        <input type="number" id="stok" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author_id">ID Penulis:</label>
+                        <input type="number" id="author_id" required>
+                        <small>Pastikan ID Penulis ada di database (misal: 1, 2, 3)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="category_id">ID Kategori:</label>
+                        <input type="number" id="category_id" required>
+                        <small>Pastikan ID Kategori ada di database (misal: 1, 2, 3, 4)</small>
+                    </div>
+                    <button type="submit">Tambah Buku</button>
+                </form>
+                <p id="book-message" class="message"></p>
+            </section>
+
+            <section id="borrowing-management-section" class="content-section">
+                <h2>Peminjaman Buku</h2>
+
+                <div class="section-nav">
+                    <button data-borrowing-sub-section="list" class="active">Daftar Peminjaman</button>
+                    <button data-borrowing-sub-section="new">Pinjam Buku Baru</button>
+                    <button data-borrowing-sub-section="return">Kembalikan Buku</button>
+                </div>
+
+                <div id="borrowings-list-subsection" class="borrowing-sub-section active">
+                    <h3>Daftar Peminjaman Aktif</h3>
+                    <div id="borrowings-container" class="books-grid">
+                         <p>Memuat peminjaman...</p>
+                    </div>
+                </div>
+
+                <div id="borrow-new-subsection" class="borrowing-sub-section">
+                    <h3>Formulir Peminjaman Baru</h3>
+                    <form id="borrow-book-form">
+                        <div class="form-group">
+                            <label for="borrow_member_id">Pilih Anggota:</label>
+                            <select id="borrow_member_id" required>
+                                <option value="">Pilih Anggota</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="borrow_book_id">Pilih Buku:</label>
+                            <select id="borrow_book_id" required>
+                                <option value="">Pilih Buku</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="durasi_peminjaman_hari">Durasi Peminjaman (Hari):</label>
+                            <input type="number" id="durasi_peminjaman_hari" value="7" min="1" required>
+                        </div>
+                        <button type="submit">Pinjam Buku</button>
+                    </form>
+                    <p id="borrowing-message" class="message"></p>
+                </div>
+
+                <div id="return-book-subsection" class="borrowing-sub-section">
+                    <h3>Formulir Pengembalian Buku</h3>
+                    <form id="return-book-form">
+                        <div class="form-group">
+                            <label for="return_borrowing_id">ID Peminjaman yang Akan Dikembalikan:</label>
+                            <input type="number" id="return_borrowing_id" required>
+                            <small>Dapatkan ID Peminjaman dari daftar "Peminjaman Aktif".</small>
+                        </div>
+                        <button type="submit" class="return-button">Kembalikan Buku</button>
+                    </form>
+                    <p id="return-message" class="message"></p>
+                </div>
+            </section>
+
+            <section id="member-management-section" class="content-section">
+                <h2>Manajemen Anggota</h2>
+                
+                <div class="section-nav">
+                    <button data-member-sub-section="list" class="active">Daftar Anggota</button>
+                    <button data-member-sub-section="new">Tambah Anggota</button>
+                </div>
+
+                <div id="members-list-subsection" class="member-sub-section active">
+                    <h3>Daftar Anggota</h3>
+                    <div id="members-container" class="books-grid">
+                        <p>Memuat anggota...</p>
+                    </div>
+                </div>
+
+                <div id="add-member-subsection" class="member-sub-section">
+                    <h3>Tambah Anggota Baru</h3>
+                    <form id="add-member-form">
+                        <div class="form-group">
+                            <label for="member_nama">Nama Anggota:</label>
+                            <input type="text" id="member_nama" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member_alamat">Alamat:</label>
+                            <input type="text" id="member_alamat">
+                        </div>
+                        <div class="form-group">
+                            <label for="member_telepon">Telepon:</label>
+                            <input type="text" id="member_telepon" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member_email">Email:</label>
+                            <input type="email" id="member_email">
+                        </div>
+                        <button type="submit">Tambah Anggota</button>
+                    </form>
+                    <p id="member-message" class="message"></p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Perpustakaan Sederhana</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

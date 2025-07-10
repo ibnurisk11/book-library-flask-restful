@@ -1,2 +1,2 @@
 # rental-app
-aplikasi penyewaan barang dengan menggunakan bahasa utama go (golang)
+aplikasi perpustakaan dengan menggunakan flask-restfull api berbasis mysql dan antarmuka (vanilla js)
