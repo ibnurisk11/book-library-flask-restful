@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perpustakaan API - Frontend</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
@@ -19,7 +19,7 @@
                     <li><a href="#" data-section="add-book">Tambah Buku</a></li>
                     <li><a href="#" data-section="borrowing-management">Peminjaman Buku</a></li>
                     <li><a href="#" data-section="member-management">Manajemen Anggota</a></li>
-                    </ul>
+                </ul>
             </nav>
         </aside>
 
@@ -77,7 +77,7 @@
                 <div id="borrowings-list-subsection" class="borrowing-sub-section active">
                     <h3>Daftar Peminjaman Aktif</h3>
                     <div id="borrowings-container" class="books-grid">
-                         <p>Memuat peminjaman...</p>
+                           <p>Memuat peminjaman...</p>
                     </div>
                 </div>
 
@@ -166,6 +166,6 @@
         <p>&copy; 2025 Perpustakaan Sederhana</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

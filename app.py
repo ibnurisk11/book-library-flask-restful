@@ -1,9 +1,9 @@
 # app.py
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template # <-- Tambahkan render_template di sini
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta # Import timedelta untuk tanggal kembali
+from datetime import datetime, timedelta
 from urllib.parse import quote_plus
 from flask_cors import CORS
 
@@ -32,7 +32,6 @@ class TimestampMixin:
     tanggal_dibuat = db.Column(db.DateTime, default=datetime.utcnow)
     tanggal_diupdate = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-# (Model Author, Category, Book yang sudah ada)
 class Author(db.Model, TimestampMixin):
     __tablename__ = 'authors'
     id = db.Column(db.Integer, primary_key=True)
@@ -91,7 +90,6 @@ class Book(db.Model, TimestampMixin):
             data['category'] = self.category.to_dict() if self.category else None
         return data
 
-# --- Model Member (Baru) ---
 class Member(db.Model, TimestampMixin):
     __tablename__ = 'members'
     id = db.Column(db.Integer, primary_key=True)
@@ -113,7 +111,6 @@ class Member(db.Model, TimestampMixin):
             'tanggal_diupdate': self.tanggal_diupdate.isoformat()
         }
 
-# --- Model Borrowing (Baru) ---
 class Borrowing(db.Model, TimestampMixin):
     __tablename__ = 'borrowings'
     id = db.Column(db.Integer, primary_key=True)
@@ -143,7 +140,6 @@ class Borrowing(db.Model, TimestampMixin):
 
 # --- Resource API untuk setiap Model ---
 
-# (Resource Author dan Category yang sudah ada)
 class AuthorList(Resource):
     def get(self):
         authors = Author.query.all()
@@ -327,7 +323,6 @@ class BookResource(Resource):
         db.session.commit()
         return {'message': 'Book deleted successfully'}, 204
 
-# --- Resource Member (Baru) ---
 class MemberList(Resource):
     def get(self):
         members = Member.query.all()
@@ -389,7 +384,6 @@ class MemberResource(Resource):
         db.session.commit()
         return {'message': 'Member deleted successfully'}, 204
 
-# --- Resource Borrowing (Baru) ---
 class BorrowingList(Resource):
     def get(self):
         borrowings = Borrowing.query.all()
@@ -498,6 +492,11 @@ api.add_resource(MemberResource, '/members/<int:member_id>') # Endpoint baru
 api.add_resource(BorrowingList, '/borrowings') # Endpoint baru
 api.add_resource(BorrowingResource, '/borrowings/<int:borrowing_id>') # Endpoint baru
 
+# --- Route untuk menyajikan halaman utama (frontend) ---
+@app.route('/')
+def serve_index():
+    return render_template('index.html')
+
 
 # --- Inisialisasi Database (Hanya untuk Development/Testing Awal) ---
 with app.app_context():
@@ -505,5 +504,6 @@ with app.app_context():
     print("Database tables created/checked.")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Anda bisa mengubah port di sini jika ingin
+    app.run(debug=True, port=5000) # Defaultnya 5000, Anda bisa ubah ke 5501 jika mau
     print("Flask app is running...")
